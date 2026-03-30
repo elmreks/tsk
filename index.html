@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f0f0f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TSK" />
+  <title>TSK</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Loading -->
+  <div id="loading"><div class="spinner"></div></div>
+
+  <!-- Auth screen -->
+  <div id="auth-screen" style="display:none">
+    <h1>TSK</h1>
+    <p>Sign in to keep your tasks in sync.</p>
+    <button class="btn-google" id="btn-google-signin">
+      <svg width="18" height="18" viewBox="0 0 48 48">
+        <path fill="#4285F4" d="M46.145 24.503c0-1.636-.147-3.21-.42-4.72H24v8.927h12.437c-.537 2.888-2.17 5.335-4.627 6.977v5.799h7.49c4.382-4.038 6.845-9.987 6.845-16.983z"/>
+        <path fill="#34A853" d="M24 47c6.237 0 11.466-2.07 15.287-5.614l-7.49-5.8c-2.07 1.387-4.718 2.205-7.797 2.205-5.997 0-11.076-4.05-12.89-9.495H3.398v5.99C7.2 42.635 15.02 47 24 47z"/>
+        <path fill="#FBBC05" d="M11.11 28.296A14.97 14.97 0 0 1 10.3 24c0-1.492.257-2.942.81-4.296v-5.99H3.398A22.978 22.978 0 0 0 1 24c0 3.713.89 7.228 2.398 10.286l7.712-5.99z"/>
+        <path fill="#EA4335" d="M24 9.21c3.378 0 6.41 1.16 8.797 3.44l6.593-6.593C35.46 2.322 30.232 0 24 0 15.02 0 7.2 4.365 3.398 13.714l7.712 5.99C12.924 13.26 18.003 9.21 24 9.21z"/>
+      </svg>
+      Sign in with Google
+    </button>
+  </div>
+
+  <!-- App -->
+  <div id="app" style="display:none">
+    <header>
+      <h1>TSK</h1>
+      <div class="header-right">
+        <img class="avatar" id="user-avatar" src="" alt="avatar" style="display:none" title="Signed in" />
+        <button class="btn-icon" id="btn-signout" title="Sign out">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="active">Active</button>
+      <button class="filter-btn" data-filter="high">High priority</button>
+      <button class="filter-btn" data-filter="overdue">Overdue</button>
+      <button class="filter-btn" data-filter="done">Done</button>
+    </div>
+
+    <div id="task-list"></div>
+
+    <button class="fab" id="btn-add">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New task
+    </button>
+  </div>
+
+  <!-- Add/Edit modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <h2 id="modal-title">New Task</h2>
+      <form id="task-form">
+        <div class="field">
+          <label for="input-title">Task</label>
+          <input type="text" id="input-title" placeholder="What needs doing?" autocomplete="off" required />
+        </div>
+        <div class="field">
+          <label>Priority</label>
+          <div class="priority-group">
+            <button type="button" class="priority-opt" data-priority="high">High</button>
+            <button type="button" class="priority-opt selected-med" data-priority="med">Medium</button>
+            <button type="button" class="priority-opt" data-priority="low">Low</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="input-date">Due date</label>
+          <input type="date" id="input-date" />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancel">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
