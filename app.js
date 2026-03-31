@@ -167,7 +167,7 @@ function renderTasks() {
       <div class="task-body">
         <div class="task-title">${escHtml(t.title)}</div>
         <div class="task-meta">
-          ${t.priority ? `<span>${priorityLabel(t.priority)}</span>` : ''}
+          ${t.priority ? `<span class="priority-label priority-${t.priority}">${priorityLabel(t.priority)}</span>` : ''}
           ${dueMeta(t.dueDate)}
         </div>
       </div>

@@ -182,10 +182,15 @@ header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
   flex-wrap: wrap;
 }
 
+.priority-label.priority-high { color: #d94f3a; }
+.priority-label.priority-med  { color: #d4720a; }
+.priority-label.priority-low  { color: #b8960a; }
+
 .due-badge {
   display: flex;
   align-items: center;
   gap: 4px;
+  color: #2a8a4a;
 }
 .due-badge.overdue { color: var(--high); }
 .due-badge.today { color: var(--med); }
