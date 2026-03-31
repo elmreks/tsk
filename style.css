@@ -342,6 +342,26 @@ header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
 }
 .btn-secondary:hover { color: var(--text); }
 
+/* Dark theme */
+[data-theme="dark"] {
+  --bg:       #1a1410;
+  --surface:  #241e18;
+  --surface2: #2e2620;
+  --border:   #3d3228;
+  --text:     #e8d5b0;
+  --text-muted: #7a6a50;
+  --high:     #e8604a;
+  --med:      #e07820;
+  --low:      #40a060;
+  --done-text:#6a5a40;
+}
+
+[data-theme="dark"] .priority-label.priority-high { color: #e8604a; }
+[data-theme="dark"] .priority-label.priority-med  { color: #e07820; }
+[data-theme="dark"] .priority-label.priority-low  { color: #c9a800; }
+[data-theme="dark"] .due-badge                    { color: #50b878; }
+[data-theme="dark"] .modal-overlay                { background: rgba(0,0,0,0.75); }
+
 /* ASCII toggles */
 .ascii-toggles {
   display: flex;

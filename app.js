@@ -266,6 +266,22 @@ modalOverlay.addEventListener('touchend', e => {
   if (e.changedTouches[0].clientY - touchStartY > 80) closeModal();
 }, { passive: true });
 
+// ── Theme toggle ──────────────────────────────────────────────────────────────
+const themeBtn = document.getElementById('toggle-theme');
+
+function applyTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  themeBtn.textContent = dark ? '☀' : '◑';
+}
+
+applyTheme(localStorage.getItem('theme') === 'dark');
+
+themeBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  applyTheme(!isDark);
+});
+
 // ── ASCII Background Animations ───────────────────────────────────────────────
 const asciiState     = { plane: false, birds: false, clouds: false };
 const asciiIntervals = { plane: null,  birds: null,  clouds: null  };
