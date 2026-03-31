@@ -266,6 +266,95 @@ modalOverlay.addEventListener('touchend', e => {
   if (e.changedTouches[0].clientY - touchStartY > 80) closeModal();
 }, { passive: true });
 
+// ── ASCII Background Animations ───────────────────────────────────────────────
+const asciiState     = { plane: false, birds: false, clouds: false };
+const asciiIntervals = { plane: null,  birds: null,  clouds: null  };
+
+const PLANE_ART  = '──────────────────✈';
+const BIRD_ARTS  = ['^', '^ ^', '^  ^', '^ ^ ^', '^   ^   ^', '^ ^  ^  ^'];
+const CLOUD_ARTS = [
+  '  .~~~~.\n (      )\n  `~~~~\'',
+  '  .~~~~~~~~~~~~.\n (              )\n  `~~~~~~~~~~~~\'',
+  '  .~~~~~~~~~~~~~~~~~~~~~~.\n (                        )\n  `~~~~~~~~~~~~~~~~~~~~~~\''
+];
+
+function spawnEl({ content, cls, yMin, yMax, duration, fontSize, opacity }) {
+  const el = document.createElement('pre');
+  el.className = `ascii-el ${cls}`;
+  el.textContent = content;
+  el.style.top = (Math.random() * (yMax - yMin) + yMin) + 'vh';
+  el.style.animationDuration = duration + 's';
+  el.style.fontSize = fontSize;
+  el.style.opacity = opacity;
+  document.body.appendChild(el);
+  el.addEventListener('animationend', () => el.remove());
+}
+
+function startPlane() {
+  const spawn = () => spawnEl({
+    content: PLANE_ART, cls: 'ascii-plane',
+    yMin: 5, yMax: 65,
+    duration: 28 + Math.random() * 12,
+    fontSize: '0.85rem', opacity: '0.22'
+  });
+  spawn();
+  asciiIntervals.plane = setInterval(spawn, 20000);
+}
+
+function startBirds() {
+  const spawnFlock = () => {
+    const count   = 3 + Math.floor(Math.random() * 4);
+    const baseY   = 5 + Math.random() * 65;
+    const baseDur = 14 + Math.random() * 8;
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => spawnEl({
+        content: BIRD_ARTS[Math.floor(Math.random() * BIRD_ARTS.length)],
+        cls: 'ascii-birds',
+        yMin: Math.max(0, baseY - 6),
+        yMax: Math.min(92, baseY + 6),
+        duration: baseDur + Math.random() * 4,
+        fontSize: '1rem', opacity: '0.32'
+      }), i * 350);
+    }
+  };
+  spawnFlock();
+  asciiIntervals.birds = setInterval(spawnFlock, 7000);
+}
+
+function startClouds() {
+  const spawn = () => spawnEl({
+    content: CLOUD_ARTS[Math.floor(Math.random() * CLOUD_ARTS.length)],
+    cls: 'ascii-clouds',
+    yMin: 2, yMax: 72,
+    duration: 35 + Math.random() * 20,
+    fontSize: '1.1rem', opacity: '0.42'
+  });
+  spawn();
+  asciiIntervals.clouds = setInterval(spawn, 6000);
+}
+
+function stopAnimation(type) {
+  clearInterval(asciiIntervals[type]);
+  asciiIntervals[type] = null;
+  document.querySelectorAll(`.ascii-${type}`).forEach(el => el.remove());
+}
+
+function toggleAnimation(type) {
+  asciiState[type] = !asciiState[type];
+  document.getElementById(`toggle-${type}`).classList.toggle('active', asciiState[type]);
+  if (asciiState[type]) {
+    if (type === 'plane')  startPlane();
+    if (type === 'birds')  startBirds();
+    if (type === 'clouds') startClouds();
+  } else {
+    stopAnimation(type);
+  }
+}
+
+document.getElementById('toggle-plane').addEventListener('click',  () => toggleAnimation('plane'));
+document.getElementById('toggle-birds').addEventListener('click',  () => toggleAnimation('birds'));
+document.getElementById('toggle-clouds').addEventListener('click', () => toggleAnimation('clouds'));
+
 // ── Service worker ─────────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/tsk/sw.js'));

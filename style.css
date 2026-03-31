@@ -342,6 +342,59 @@ header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
 }
 .btn-secondary:hover { color: var(--text); }
 
+/* ASCII toggles */
+.ascii-toggles {
+  display: flex;
+  gap: 4px;
+}
+
+.ascii-toggle {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 28px; height: 28px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.ascii-toggle:hover { color: var(--text); border-color: #a0906a; }
+.ascii-toggle.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+/* ASCII background elements */
+.ascii-el {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  white-space: pre;
+  color: var(--text);
+  line-height: 1.3;
+  user-select: none;
+}
+
+.ascii-plane,
+.ascii-birds {
+  animation: ascii-fly-right linear forwards;
+}
+
+.ascii-clouds {
+  animation: ascii-drift-left linear forwards;
+}
+
+@keyframes ascii-fly-right {
+  from { left: -300px; }
+  to   { left: 110vw;  }
+}
+
+@keyframes ascii-drift-left {
+  from { left: 110vw;  }
+  to   { left: -600px; }
+}
+
 /* Loading */
 #loading {
   display: flex;
